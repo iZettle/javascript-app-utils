@@ -3,7 +3,7 @@ import { combineEpics } from "redux-observable"
 
 const expectedInvalidModuleNames = [
   "__esModule"
-].join() // join because Array.includes does not work
+]
 
 const isValidModuleName = name => {
   const isValid = /^[a-zA-Z\-0-9]*$/.test(name)
