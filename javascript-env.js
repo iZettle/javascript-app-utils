@@ -3,6 +3,6 @@ module.exports = {
     files: "src/**/*.js"
   },
   test: {
-    files: "test/**/*.js"
+    files: __dirname + "/test/**/*.test.js"
   }
 }
