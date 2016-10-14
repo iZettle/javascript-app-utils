@@ -5,6 +5,7 @@ Utilities and helpers for javascript applications developed with React, Redux an
 
 `combineModules()`
 ------------------
+Combine modules that has a reducer and/or an epic:
 ```js
 import { applyMiddleware, createStore } from "redux"
 import { createEpicMiddleware } from "redux-observable"
@@ -16,4 +17,13 @@ const rootModule = combineModules(modules)
 const store = createStore(rootModule.reducer, {}, applyMiddleware(
   createEpicMiddleware(rootModule.epic)
 ))
+```
+
+Modules must look like this:
+```js
+const exampleModule = {
+  name: "example",
+  reducer: (state, action) => state,
+  epic: action$ => action$
+}
 ```
