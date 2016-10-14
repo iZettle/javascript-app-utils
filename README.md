@@ -5,7 +5,7 @@ Utilities and helpers for javascript applications developed with React, Redux an
 
 `combineModules()`
 ------------------
-```
+```js
 import { applyMiddleware, createStore } from "redux"
 import { createEpicMiddleware } from "redux-observable"
 import { combineModules } from "@izettle/app-utils"
