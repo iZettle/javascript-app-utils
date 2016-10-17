@@ -1,6 +1,6 @@
 {
   "name": "@izettle/app-utils",
-  "version": "0.1.0",
+  "version": "0.2.0-dev",
   "description": "Utilities and helpers for javascript applications developed with React, Redux and RxJS.",
   "main": "dist/index.js",
   "scripts": {
