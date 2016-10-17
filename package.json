@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/iZettle/javascript-app-utils#readme",
   "devDependencies": {
-    "@izettle/javascript-env": "^1.2.0",
+    "@izettle/javascript-env": "^1.3.0-dev",
     "babel-cli": "^6.16.0",
     "babel-preset-es2015": "^6.16.0",
     "redux": "^3.6.0",
