@@ -1,6 +1,6 @@
 import { Observable } from "rxjs"
 
-export const ajax = opts => Observable
+export default opts => Observable
   .ajax({
     method: opts.method,
     url: opts.url,
@@ -16,9 +16,10 @@ export const ajax = opts => Observable
     payload: request.response
   }))
   .catch(error => (
+    // TODO: guard for JSON parse errors
     Observable.of({
       type: opts.failureType,
-      payload: error.xhr.response,
+      payload: JSON.parse(error.xhr.response),
       error: true
     })
   ))
