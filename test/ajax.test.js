@@ -25,36 +25,28 @@ describe("ajax()", () => {
     let request = createRequestObject()
     delete request.url
 
-    expect(() => {
-      ajax(request)
-    }).toThrowError()
+    expect(() => ajax(request)).toThrowError()
   })
 
   it("should throw if no method is given", () => {
     let request = createRequestObject()
     delete request.method
 
-    expect(() => {
-      ajax(request)
-    }).toThrowError()
+    expect(() => ajax(request)).toThrowError()
   })
 
   it("should throw if no successType is given", () => {
     let request = createRequestObject()
     delete request.successType
 
-    expect(() => {
-      ajax(request)
-    }).toThrowError()
+    expect(() => ajax(request)).toThrowError()
   })
 
   it("should throw if no failureType is given", () => {
     let request = createRequestObject()
     delete request.failureType
 
-    expect(() => {
-      ajax(request)
-    }).toThrowError()
+    expect(() => ajax(request)).toThrowError()
   })
 
   it("should emit the correct action with the response when successful", () => {
