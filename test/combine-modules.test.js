@@ -65,7 +65,7 @@ describe("combineModules()", () => {
     })
   })
 
-  describe("extractEpics", () => {
+  describe("extractEpics()", () => {
     it("should return an array of all the modules' epics", () => {
       const modules = [
         { name: "foo", epic: "dummyEpic1" },
