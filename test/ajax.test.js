@@ -52,10 +52,11 @@ describe("ajax()", () => {
   })
 
   describe("Successful ajax calls", () => {
-    it("should emit the correct action with the response when successful", () => {
+    it("should emit the correct action with the response when successful", done => {
       ajax(createRequestObject()).subscribe(action => {
         expect(action.type).toEqual("SUCCESS")
         expect(action.payload).toEqual({ foo: "bar" })
+        done()
       })
 
       mockAjax(200, { foo: "bar" })
@@ -63,33 +64,37 @@ describe("ajax()", () => {
   })
 
   describe("Failing ajax calls", () => {
-    it("should have the correct action type", () => {
+    it("should have the correct action type", done => {
       ajax(createRequestObject()).subscribe(action => {
         expect(action.type).toEqual("FAILURE")
+        done()
       })
 
       mockAjax(400, "")
     })
 
-    it("should have the error protopery set to true", () => {
+    it("should have the error protopery set to true", done => {
       ajax(createRequestObject()).subscribe(action => {
         expect(action.error).toEqual(true)
+        done()
       })
 
       mockAjax(400, "")
     })
 
-    it("should have a payload containing an error with a message", () => {
+    it("should have a payload containing an error with a message", done => {
       ajax(createRequestObject()).subscribe(action => {
         expect(action.payload.message).toEqual("400: \"error from backend\"")
+        done()
       })
 
       mockAjax(400, "error from backend")
     })
 
-    it("should have a payload containing an error the xhr object attached", () => {
+    it("should have a payload containing an error the xhr object attached", done => {
       ajax(createRequestObject()).subscribe(action => {
         expect(action.payload.xhr.response).toEqual("\"error from backend\"")
+        done()
       })
 
       mockAjax(400, "error from backend")
