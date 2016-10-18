@@ -1,13 +1,6 @@
 import assert from "assert"
 import { Observable } from "rxjs"
 
-export function AjaxError(error) {
-  this.message = `${error.xhr.status}: ${error.xhr.response}`
-  this.xhr = error.xhr
-}
-
-AjaxError.prototype = new Error()
-
 export default opts => {
   assert(opts.url, "You MUST provide an `url`")
   assert(opts.method, "You MUST provide an `method`")
@@ -36,4 +29,13 @@ export default opts => {
         error: true
       })
     })
+}
+
+export class AjaxError extends Error {
+  constructor(error) {
+    super(error)
+    this.name = "AjaxError"
+    this.message = `${error.xhr.status}: ${error.xhr.response}`
+    this.xhr = error.xhr
+  }
 }
