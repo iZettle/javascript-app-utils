@@ -1,4 +1,4 @@
-import ajax from "../src/ajax"
+import ajax, { AjaxError } from "../src/ajax"
 
 const mockAjax = (status, jsonResponse) =>
   jasmine.Ajax.requests.mostRecent().respondWith({
@@ -21,50 +21,78 @@ describe("ajax()", () => {
     expect(typeof ajax).toEqual("function")
   })
 
-  it("should throw if no url is given", () => {
-    let request = createRequestObject()
-    delete request.url
+  describe("Assertions", () => {
+    it("should throw if no url is given", () => {
+      let request = createRequestObject()
+      delete request.url
 
-    expect(() => ajax(request)).toThrowError()
-  })
-
-  it("should throw if no method is given", () => {
-    let request = createRequestObject()
-    delete request.method
-
-    expect(() => ajax(request)).toThrowError()
-  })
-
-  it("should throw if no successType is given", () => {
-    let request = createRequestObject()
-    delete request.successType
-
-    expect(() => ajax(request)).toThrowError()
-  })
-
-  it("should throw if no failureType is given", () => {
-    let request = createRequestObject()
-    delete request.failureType
-
-    expect(() => ajax(request)).toThrowError()
-  })
-
-  it("should emit the correct action with the response when successful", () => {
-    ajax(createRequestObject()).subscribe(action => {
-      expect(action.type).toEqual("SUCCESS")
-      expect(action.payload).toEqual({ foo: "bar" })
+      expect(() => ajax(request)).toThrowError()
     })
 
-    mockAjax(200, { foo: "bar" })
-  })
+    it("should throw if no method is given", () => {
+      let request = createRequestObject()
+      delete request.method
 
-  it("should emit an error action with the correct type, message and error marker when it fails", () => {
-    ajax(createRequestObject()).subscribe(action => {
-      expect(action.type).toEqual("FAILURE")
-      expect(action.payload).toEqual({ error: "nej" })
-      expect(action.error).toBeDefined()
+      expect(() => ajax(request)).toThrowError()
     })
 
-    mockAjax(400, { error: "nej" })
+    it("should throw if no successType is given", () => {
+      let request = createRequestObject()
+      delete request.successType
+
+      expect(() => ajax(request)).toThrowError()
+    })
+
+    it("should throw if no failureType is given", () => {
+      let request = createRequestObject()
+      delete request.failureType
+
+      expect(() => ajax(request)).toThrowError()
+    })
+  })
+
+  describe("Successful ajax calls", () => {
+    it("should emit the correct action with the response when successful", () => {
+      ajax(createRequestObject()).subscribe(action => {
+        expect(action.type).toEqual("SUCCESS")
+        expect(action.payload).toEqual({ foo: "bar" })
+      })
+
+      mockAjax(200, { foo: "bar" })
+    })
+  })
+
+  describe("Failing ajax calls", () => {
+    it("should have the correct action type", () => {
+      ajax(createRequestObject()).subscribe(action => {
+        expect(action.type).toEqual("FAILURE")
+      })
+
+      mockAjax(400, "")
+    })
+
+    it("should have the error protopery set to true", () => {
+      ajax(createRequestObject()).subscribe(action => {
+        expect(action.error).toEqual(true)
+      })
+
+      mockAjax(400, "")
+    })
+
+    it("should have a payload containing an error with a message", () => {
+      ajax(createRequestObject()).subscribe(action => {
+        expect(action.payload.message).toEqual("400: \"error from backend\"")
+      })
+
+      mockAjax(400, "error from backend")
+    })
+
+    it("should have a payload containing an error the xhr object attached", () => {
+      ajax(createRequestObject()).subscribe(action => {
+        expect(action.payload.xhr.response).toEqual("\"error from backend\"")
+      })
+
+      mockAjax(400, "error from backend")
+    })
   })
 })
