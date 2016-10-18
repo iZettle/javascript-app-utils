@@ -1,6 +1,15 @@
 import assert from "assert"
 import { Observable } from "rxjs"
 
+export class AjaxError extends Error {
+  constructor(error) {
+    super(error)
+    this.name = "AjaxError"
+    this.message = `${error.xhr.status}: ${error.xhr.response}`
+    this.xhr = error.xhr
+  }
+}
+
 export default opts => {
   assert(opts.url, "You MUST provide an `url`")
   assert(opts.method, "You MUST provide an `method`")
@@ -22,20 +31,9 @@ export default opts => {
       type: opts.successType,
       payload: request.response
     }))
-    .catch(error => {
-      return Observable.of({
-        type: opts.failureType,
-        payload: new AjaxError(error),
-        error: true
-      })
-    })
-}
-
-export class AjaxError extends Error {
-  constructor(error) {
-    super(error)
-    this.name = "AjaxError"
-    this.message = `${error.xhr.status}: ${error.xhr.response}`
-    this.xhr = error.xhr
-  }
+    .catch(error => Observable.of({
+      type: opts.failureType,
+      payload: new AjaxError(error),
+      error: true
+    }))
 }
