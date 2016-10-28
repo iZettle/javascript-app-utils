@@ -1,4 +1,4 @@
-import ajax, { AjaxError } from "../src/ajax"
+import ajax from "../src/ajax"
 
 const mockAjax = (status, jsonResponse) =>
   jasmine.Ajax.requests.mostRecent().respondWith({
@@ -23,28 +23,28 @@ describe("ajax()", () => {
 
   describe("Assertions", () => {
     it("should throw if no url is given", () => {
-      let request = createRequestObject()
+      const request = createRequestObject()
       delete request.url
 
       expect(() => ajax(request)).toThrowError()
     })
 
     it("should throw if no method is given", () => {
-      let request = createRequestObject()
+      const request = createRequestObject()
       delete request.method
 
       expect(() => ajax(request)).toThrowError()
     })
 
     it("should throw if no successType is given", () => {
-      let request = createRequestObject()
+      const request = createRequestObject()
       delete request.successType
 
       expect(() => ajax(request)).toThrowError()
     })
 
     it("should throw if no failureType is given", () => {
-      let request = createRequestObject()
+      const request = createRequestObject()
       delete request.failureType
 
       expect(() => ajax(request)).toThrowError()
@@ -84,7 +84,7 @@ describe("ajax()", () => {
 
     it("should have a payload containing an error with a message", done => {
       ajax(createRequestObject()).subscribe(action => {
-        expect(action.payload.message).toEqual("400: \"error from backend\"")
+        expect(action.payload.message).toEqual("ajax error 400")
         done()
       })
 

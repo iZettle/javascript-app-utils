@@ -1,14 +1,9 @@
 import assert from "assert"
-import { Observable } from "rxjs"
-
-export class AjaxError extends Error {
-  constructor(error) {
-    super(error)
-    this.name = "AjaxError"
-    this.message = `${error.xhr.status}: ${error.xhr.response}`
-    this.xhr = error.xhr
-  }
-}
+import { Observable } from "rxjs/Observable"
+import "rxjs/add/observable/dom/ajax"
+import "rxjs/add/observable/of"
+import "rxjs/add/operator/map"
+import "rxjs/add/operator/catch"
 
 export default opts => {
   assert(opts.url, "You MUST provide an `url`")
@@ -23,8 +18,7 @@ export default opts => {
       body: opts.body,
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
-        credentials: "include"
+        "Content-Type": "application/json"
       }
     })
     .map(request => ({
@@ -33,7 +27,7 @@ export default opts => {
     }))
     .catch(error => Observable.of({
       type: opts.failureType,
-      payload: new AjaxError(error),
+      payload: error,
       error: true
     }))
 }
