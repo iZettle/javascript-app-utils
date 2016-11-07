@@ -11,23 +11,27 @@ export default opts => {
   assert(opts.successType, "You MUST provide a `successType`")
   assert(opts.failureType, "You MUST provide a `failureType`")
 
+  const defaultHeaders = {
+    Accept: "application/json",
+    "Content-Type": "application/json"
+  }
+
   return Observable
     .ajax({
       method: opts.method,
       url: opts.url,
       body: opts.body,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
+      headers: opts.headers || defaultHeaders
     })
     .map(request => ({
       type: opts.successType,
-      payload: request.response
+      payload: request.response,
+      meta: opts.meta
     }))
     .catch(error => Observable.of({
       type: opts.failureType,
       payload: error,
-      error: true
+      error: true,
+      meta: opts.meta
     }))
 }
