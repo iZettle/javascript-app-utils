@@ -5,6 +5,11 @@ import "rxjs/add/observable/of"
 import "rxjs/add/operator/map"
 import "rxjs/add/operator/catch"
 
+const addMetaIfPresent = (action, meta) => {
+  if (meta) action.meta = meta
+  return action
+}
+
 export default opts => {
   assert(opts.url, "You MUST provide an `url`")
   assert(opts.method, "You MUST provide an `method`")
@@ -23,15 +28,13 @@ export default opts => {
       body: opts.body,
       headers: opts.headers || defaultHeaders
     })
-    .map(request => ({
+    .map(request => addMetaIfPresent({
       type: opts.successType,
-      payload: request.response,
-      meta: opts.meta
-    }))
-    .catch(error => Observable.of({
+      payload: request.response
+    }, opts.meta))
+    .catch(error => Observable.of(addMetaIfPresent({
       type: opts.failureType,
       payload: error,
-      error: true,
-      meta: opts.meta
-    }))
+      error: true
+    }, opts.meta)))
 }
