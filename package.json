@@ -4,9 +4,14 @@
   "description": "Utilities and helpers for javascript applications developed with React, Redux and RxJS.",
   "main": "dist/index.js",
   "scripts": {
-    "build": "babel src --presets babel-preset-es2015 --out-dir dist",
-    "test": "javascript-env test",
-    "lint": "javascript-env lint"
+    "build": "`yarn bin`/babel src --presets babel-preset-es2015 --out-dir dist",
+    "test": "`yarn bin`/javascript-env test",
+    "lint": "`yarn bin`/javascript-env lint",
+    "prepublish": "yarn run lint && yarn run build"
+  },
+  "engines": {
+    "node": "7.5.0",
+    "yarn": "0.20.3"
   },
   "repository": {
     "type": "git",
@@ -25,16 +30,18 @@
   },
   "homepage": "https://github.com/iZettle/javascript-app-utils#readme",
   "devDependencies": {
-    "@izettle/javascript-env": "^1.3.0",
+    "@izettle/javascript-env": "^3.3.5",
     "babel-cli": "^6.16.0",
     "babel-preset-es2015": "^6.16.0",
+    "eslint": "^3.15.0",
+    "karma": "^1.4.1",
     "redux": "^3.6.0",
-    "redux-observable": "^0.12.1",
-    "rxjs": "^5.0.0-rc.1"
+    "redux-observable": "^0.13.0",
+    "rxjs": "^5.1.1"
   },
   "peerDependencies": {
     "redux": "^3.6.0",
-    "redux-observable": "^0.12.1",
-    "rxjs": "^5.0.0-rc.1"
+    "redux-observable": "^0.13.0",
+    "rxjs": "^5.1.1"
   }
 }
