@@ -9,10 +9,6 @@
     "lint": "`yarn bin`/javascript-env lint",
     "prepublish": "yarn run lint && yarn run build"
   },
-  "engines": {
-    "node": "7.5.0",
-    "yarn": "0.20.3"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iZettle/javascript-app-utils.git"
